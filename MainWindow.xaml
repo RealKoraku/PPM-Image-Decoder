@@ -1,0 +1,30 @@
+﻿<Window x:Class="PPMDecrypt.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:PPMDecrypt"
+        mc:Ignorable="d"
+        Title="PPMDecryption" Height="400" Width="600">
+    <Grid Height="385" VerticalAlignment="Top">
+        <Grid.Background>
+            <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                <GradientStop Color="#FF14AFA5"/>
+                <GradientStop Color="#FFC12432" Offset="1"/>
+            </LinearGradientBrush>
+        </Grid.Background>
+        <!-- MENU -->
+        <Menu Name ="mnuMain" VerticalAlignment="Top" Height="25" BorderBrush="#FF9C353F" Background="#FF9C353F" Grid.ColumnSpan="2" Foreground="#FF187B74">
+            <MenuItem Name="muiFile" Header="File" FontFamily="Microsoft Yi Baiti" FontSize="16" Background="#FF3ABFB6" BorderBrush="#FF14968D" Foreground="#FF9C353F" BorderThickness="2,2,2,2" StaysOpenOnClick="True">
+                <MenuItem Name="muiOpenPPM" Header="Open PPM" Background="#FF3ABFB6" BorderBrush="#FF3ABFB6" Foreground="#FF9C353F" Click="muiOpenPPM_Click">
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <!-- IMAGE -->
+        <Image Name="imgMain" HorizontalAlignment="Left" Height="300" Margin="11,39,0,0" VerticalAlignment="Top" Width="300" RenderTransformOrigin="0.514,0.502" RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+        <Button x:Name="BtnDecode" Content="Decode" Margin="420,288,105,67" FontFamily="Microsoft Yi Baiti" FontSize="16" Background="#FF3ABFB6" Foreground="#FF9C353F" BorderBrush="#FF9C353F" Click="BtnDecode_Click"/>
+        <TextBlock TextWrapping="Wrap" Text="" HorizontalAlignment="Left" Width="180" Height="180" FontFamily="Microsoft Yi Baiti" FontSize="16" Background="#6614736C" Foreground="#FF9C353F" Margin="372,100,0,105"/>
+        <Label Content="Decoded message:" HorizontalAlignment="Left" Height="35" Margin="348,62,0,0" VerticalAlignment="Top" Width="216" FontFamily="Microsoft Yi Baiti" FontSize="17" Foreground="#FF9C353F"/>
+
+    </Grid>
+</Window>
