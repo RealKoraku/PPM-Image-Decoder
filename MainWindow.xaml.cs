@@ -101,7 +101,7 @@ namespace PPMDecrypt {
                 }
 
                 BitmapMaker PPMbitmap = new BitmapMaker(0, 0);
-                
+
                 PPMbitmap = BuildBitmap(resHeight, resWidth, RGBvalues, PPMbitmap);    //build bitmap
                 publicBitmap = PPMbitmap;
                 DisplayBitmap(publicBitmap);                                              //display constructed image
@@ -207,17 +207,101 @@ namespace PPMDecrypt {
 
         #region Decode
 
-        private string DecodeMessage(BitmapMaker bitmap) {
+        private string DecodeMessage(BitmapMaker PPMbitmap) {
             BitmapMaker encryptedBitmap = publicBitmap;
+            char[] decryptionChars = BuildChars();
             string decodedMessage = "";
 
+            double yInc = PPMbitmap.Height / 16;            //which pixels to check
+            double xInc = PPMbitmap.Width / 16;
+
+            yInc = Math.Floor(yInc);                        //always round decimal down
+            xInc = Math.Floor(xInc);
+
+            int xStart = 0;
+
+            int y = 0;                                      //x, y start at 0 (topleft pixel)
+            int x = 0;
+
+            int msgCount = 0;
+
+            for (x = xStart; x < PPMbitmap.Width; x += 0) {
+                x += (int)xInc;
+
+                if (y == PPMbitmap.Height && x == PPMbitmap.Width) {
+                    break;
+                }
+
+                if (x >= PPMbitmap.Width) {
+                    x = 0;
+                    y += (int)yInc;
+                }
+
+                byte[] pixelData = PPMbitmap.GetPixelData(x, y);
+
+                int modVal = pixelData[2];
+                int RGBIndex = 2;
+
+                int[] RGBinfo = DecideRGBValue(modVal, pixelData, RGBIndex);
+
+                modVal = RGBinfo[0];
+                RGBIndex = RGBinfo[1];
+
+                decodedMessage += decryptionChars[modVal];
+                msgCount++;
+                if (msgCount == 255) {
+                    break;
+                }
+            }
             return decodedMessage;
+        }
+
+        private int[] DecideRGBValue(int modVal, byte[] pixelData, int RGBIndex) {
+            int[] RGBinfo = new int[2];
+
+            if (modVal == pixelData[0]) {
+                modVal = pixelData[1];
+                RGBIndex = 1;
+
+            } else if (modVal == pixelData[1]) {
+                modVal = pixelData[2];
+                RGBIndex = 2;
+
+            } else {
+                modVal = pixelData[0];
+                RGBIndex = 0;
+            }
+
+            RGBinfo[0] = modVal;
+            RGBinfo[1] = RGBIndex;
+            return RGBinfo;
+        }
+
+
+        private char[] BuildChars() {               //create array of A-Z, 0-9, and some punctuation, repeating until it reaches 256
+            char[] encryptionChars = { 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', ' ', '.', ',', '!', '?', '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };   //if byte / i == wholeNum
+            char[] encryption = new char[256];
+
+            int j = 0;
+
+            for (int i = 0; i < encryption.Length; i++) {
+
+                encryption[i] = encryptionChars[j];     //populate array with repeating loop
+
+                if (j == encryptionChars.Count() - 1) {
+                    j = 0;
+                } else {
+                    j++;
+                }
+            }
+            return encryption;
         }
 
         #endregion
 
         private void BtnDecode_Click(object sender, RoutedEventArgs e) {
-            DecodeMessage(publicBitmap);
+            string decodedMessage = DecodeMessage(publicBitmap);
+            TxtBoxMessage.Text = decodedMessage;
         }
     }
 }
