@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PPMDecrypt"
         mc:Ignorable="d"
-        Title="PPMDecryption" Height="400" Width="600">
+        Title="PPMDecoder" Height="400" Width="600">
     <Grid Height="385" VerticalAlignment="Top">
         <Grid.Background>
             <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
@@ -25,7 +25,7 @@
         <Button x:Name="BtnDecode" Content="Decode" Margin="425,287,100,68" FontFamily="Microsoft Yi Baiti" FontSize="16" Background="#FF3ABFB6" Foreground="#FF9C353F" BorderBrush="#FF9C353F" Click="BtnDecode_Click"/>
         
         <Label Content="Decoded message:" HorizontalAlignment="Left" Height="35" Margin="348,62,0,0" VerticalAlignment="Top" Width="216" FontFamily="Microsoft Yi Baiti" FontSize="17" Foreground="#FF9C353F"/>
-        <TextBox Name="TxtBoxMessage" TextWrapping="Wrap" Text="" HorizontalAlignment="Left" Width="180" Height="180" FontFamily="Microsoft Yi Baiti" FontSize="16" Background="#6614736C" Foreground="#FF9C353F" Margin="372,100,0,105"/>
+        <TextBox Name="TxtBoxMessage" TextWrapping="Wrap" HorizontalAlignment="Left" Width="180" Height="180" FontFamily="Microsoft Yi Baiti" FontSize="16" Background="#6618BFB2" Foreground="#FF9C353F" Margin="372,100,0,105"/>
 
     </Grid>
 </Window>
