@@ -316,6 +316,7 @@ namespace PPMDecrypt {
         #region Decode
 
         private string DecodeMessage(BitmapMaker PPMbitmap) {
+            bool firstPixel = true;
             BitmapMaker encryptedBitmap = publicBitmap;
             char[] decryptionChars = BuildChars();
             string decodedMessage = "";
@@ -338,15 +339,23 @@ namespace PPMDecrypt {
 
             for (x = xStart; x < PPMbitmap.Width; x += 0) {
 
-                if (y == PPMbitmap.Height && x == PPMbitmap.Width) {
-                    break;
+                if (firstPixel) {
+                    x = 0;
+                    y = 0;
+                    firstPixel = false;
                 }
 
-                if (x >= PPMbitmap.Width) {
+                else if (y == PPMbitmap.Height && x == PPMbitmap.Width) {
+                    break;
+                } else if ((x + xInc) > PPMbitmap.Width-1) {
                     x = 0;
                     y += (int)yInc;
                 } else {
                     x += (int)xInc;
+                }
+
+                if (y > PPMbitmap.Height - 1) {
+                    break;
                 }
 
                 byte[] pixelData = PPMbitmap.GetPixelData(x, y);
@@ -397,7 +406,7 @@ namespace PPMDecrypt {
             byte[] pixelData = bitmap.GetPixelData(0, 0);
             int length = pixelData[2];
 
-            return length;
+            return length + 1;
         }
 
         #endregion
